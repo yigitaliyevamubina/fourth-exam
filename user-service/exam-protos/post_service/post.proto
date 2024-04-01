@@ -1,0 +1,48 @@
+syntax = "proto3";
+
+package post;
+
+import "google/protobuf/empty.proto";
+
+message Post {
+  string id = 1;
+  string user_id = 2;
+  string content = 3;
+  string title = 4;
+  int64 likes = 5;
+  int64 dislikes = 6;
+  int64 views = 7;
+  string category = 8;
+  string created_at = 9;
+  string updated_at = 10;
+}
+
+message Id {
+  string post_id = 1;
+}
+
+message GetListFilter {
+  int64 page = 1;
+  int64 limit = 2;
+  string orderBy = 3;
+  string user_id = 4;
+}
+
+message Posts {
+  int64 count = 1;
+  repeated Post items = 2;
+}
+
+service PostService {
+  rpc Create(Post) returns (Post);
+  rpc Update(Post) returns (Post);
+  rpc Get(Id) returns (Post);
+  rpc Delete(Id) returns (google.protobuf.Empty);
+  rpc List(GetListFilter) returns (Posts);
+}
+
+//Create post
+//Get post
+//Update post
+//Delete post
+//List posts(by user id if not empty, filter if is provided)

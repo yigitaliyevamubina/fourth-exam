@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package comment;
+
+import "google/protobuf/empty.proto";
+
+message Comment {
+  string id = 1;
+  string post_id = 2;
+  string user_id = 3;
+  string content = 4;
+  string created_at = 5;
+  string updated_at = 6;
+}
+
+message Id {
+  string comment_id = 1;
+}
+
+message GetListFilter {
+  int64 page = 1;
+  int64 limit = 2;
+  string orderBy = 3;
+  string user_id = 4;
+  string post_id = 5;
+}
+
+message Comments {
+  int64 count = 1;
+  repeated Comment items = 2;
+}
+
+service CommentService {
+  rpc Create(Comment) returns (Comment);
+  rpc Update(Comment) returns (Comment);
+  rpc Get(Id) returns (Comment);
+  rpc Delete(Id) returns (google.protobuf.Empty);
+  rpc List(GetListFilter) returns (Comments);
+}
+
+//Create comment
+//Get comment
+//Update comment
+//Delete comment
+//List comments(by user/post id if not empty, filter if is provided)
