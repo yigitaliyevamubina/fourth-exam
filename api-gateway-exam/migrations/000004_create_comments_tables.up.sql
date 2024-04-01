@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS comments (
+    id uuid NOT NULL,
+    post_id uuid NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+    user_id uuid NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP WITHOUT TIME ZONE,
+    deleted_at TIMESTAMP WITHOUT TIME ZONE
+);

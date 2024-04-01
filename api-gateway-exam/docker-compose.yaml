@@ -1,0 +1,143 @@
+version: '3.8'
+
+services:
+  db:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mubina2007
+      PGDATA: /data/postgres
+      POSTGRES_DB: socialdb
+    volumes:
+      - db:/databasexamdb/postgres
+    ports:
+      - "5332:5332"
+    networks:
+      - db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d postgres"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  migrate:
+    image: migrate/migrate
+    networks:
+      - db
+    volumes:
+      - ./migrations:/migrations
+    command: ["-path", "/migrations", "-database",  "postgres://postgres:mubina2007@db:5432/socialdb?sslmode=disable", "up"]
+    depends_on:
+      - db
+
+  cassandra:
+    container_name: cassandra
+    image: cassandra
+    ports:
+      - "9043:9043"
+    networks:
+      - db
+    restart: unless-stopped
+
+
+  mongodb:
+    container_name: mongodb
+    image: mongo
+    ports:
+      - "27018:27018"
+    volumes:
+      - mongodata:/socialdbdata/db
+    networks:
+      - db
+
+  redisdb:
+    container_name: redisdb
+    image: redis
+    ports:
+      - "6380:6380"
+    restart: unless-stopped 
+    networks:
+      - db
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "22181:2181"
+    networks:
+      - db
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    ports:
+      - "29092:29092"
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://kafka:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    networks:
+      - db
+
+  userservice:
+    container_name: userservice
+    build: ../user-service
+    depends_on:
+      - mongodb
+      - postservice
+      - commentservice
+      - cassandra
+    ports:
+      - "9090:9090"
+    networks:
+      - db
+
+  postservice:
+    container_name: postservice
+    build: ../post-service
+    depends_on:
+      - mongodb
+      - cassandra
+    ports:
+      - "7070:7070"
+    networks:
+      - db
+  
+  commentservice:
+    container_name: commentservice
+    build: ../comment-service
+    depends_on:
+      - mongodb
+      - cassandra
+    ports:
+      - "8080:8080"
+    networks:
+      - db
+
+  api-gateway:
+    container_name: api-gateway
+    build: .
+    depends_on:
+      - postservice
+      - userservice
+      - commentservice
+      - db
+    ports:
+      - "4040:4040"
+    networks:
+      - db
+
+networks:
+  db:
+    driver: bridge
+
+volumes:
+  mongodata:
+  db:

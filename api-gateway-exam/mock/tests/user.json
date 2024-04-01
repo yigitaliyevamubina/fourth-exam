@@ -1,0 +1,11 @@
+{
+    "id":           "d4f3f3ce-15f8-48da-9938-e5d9e0bb1aaf",
+    "first_name":    "Test FirstName 1",
+    "last_name":     "Test Lastname 1",
+    "username":       "Test Username 1",
+    "email":        "testemail@gmail.com",
+    "password":     "**kkw##knrtest",
+    "refresh_token": "refresh token test",
+    "bio":             "Test bio 1",
+    "website":   "Test website 1"
+}
