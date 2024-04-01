@@ -235,7 +235,7 @@ func (h *handlerV1) DislikePost(c *gin.Context) {
 		return
 	}
 
-	post.Dislikes -= 1
+	post.Dislikes += 1
 
 	response, err := h.serviceManager.PostService().Update(ctx, &pb.Post{
 		Id:       body.PostId,
