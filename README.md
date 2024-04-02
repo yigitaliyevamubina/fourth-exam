@@ -34,7 +34,7 @@ Mongo database testing in microservices(mongo uchun test yozilgan har bir servic
 - post ✅
 - comment ✅
 
-EXTRAs to exam tasks:
+**EXTRAs to exam tasks:**
 
 Real microservice testing(bunda real microservicelarni test qiladi, microservice-testing file ichida, bu test ni run qilish uchun microservice lar ishlab turgan holda bo'lishi kerak): video -> https://pub-daa7217568964be2861c94926a89ccab.r2.dev/7b5bccab-1ecb-411f-ab46-7a9509072b13.mp4 
 - user  ✅
