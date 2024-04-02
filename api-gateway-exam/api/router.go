@@ -1,7 +1,7 @@
 package api
 
 import (
-	casb "exam/api-gateway/api/casbin"
+	//casb "exam/api-gateway/api/casbin"
 	_ "exam/api-gateway/api/docs"
 	v1 "exam/api-gateway/api/handlers/v1"
 	"exam/api-gateway/api/handlers/v1/tokens"
@@ -87,8 +87,6 @@ func New(option Option) *gin.Engine {
 	})
 
 	api := router.Group("/v1")
-
-	api.Use(casb.NewAuth(casbinEnforcer, option.Cfg))
 
 	//insertion
 	api.GET("/insert", handlerV1.InsertToMongo) //unauthorized
