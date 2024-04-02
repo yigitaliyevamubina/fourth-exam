@@ -4,6 +4,8 @@ COMMENT CRUD ✅
 
 user ni id bo'yicha get qilinganda yoki user list get qilinganda hamma postlar, postlarni commentlari va har bitta commentni owner'i haqida data qaytadi. ✅
 
+- agar berilgan linklardan video topilmasa, videos zip tashlaganman, hamma video'lar bor nomlari bilan.
+
 api-testing: video -> https://pub-daa7217568964be2861c94926a89ccab.r2.dev/fe4acd04-095e-4d40-983e-23e046874578.mp4
 - inMemory, redis tool'lari bilan test qilish mumkin.
 - user testing ✅
