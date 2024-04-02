@@ -49,7 +49,7 @@ func main() {
 		panic(err)
 	}
 
-	writer, err := producer.NewKafkaProducer([]string{"localhost:9092"})
+	writer, err := producer.NewKafkaProducer([]string{"kafka:9092"})
 	if err != nil {
 		log.Fatal("cannot create a kafka producer", logger.Error(err))
 	}
