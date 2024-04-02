@@ -112,7 +112,7 @@ services:
   
   commentservice:
     container_name: commentservice
-    build: ../comment-service
+    build: ../comment-service1
     depends_on:
       - mongodb
       - cassandra
