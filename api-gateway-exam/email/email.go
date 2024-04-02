@@ -19,7 +19,7 @@ type Params struct {
 
 // Sending OTP to user via an email (registration)
 func SendVerificationCode(params Params) error {
-	htmlFile, err := os.ReadFile("/home/mubina/go/src/exam3/api-gateway-test/email/format.html")
+	htmlFile, err := os.ReadFile("format.html")
 	if err != nil {
 		log.Println("Cannot read html file", err.Error())
 		return err
